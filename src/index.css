@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand colors used across buttons, accents and borders */
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+
+  /* Chat bubble backgrounds (kept as light tints so gray-800 text stays readable) */
+  --color-bubble-out: #dbeafe;
+  --color-bubble-in: #f3f4f6;
+
+  /* Page / chat area background */
+  --color-chat-bg: #f9fafb;
+
+  /* Custom entrance animations referenced by components */
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-slide-up: slide-up 0.2s ease-out;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}

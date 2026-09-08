@@ -1,0 +1,31 @@
+// Anonymous Chat - Firestore security rules
+//
+// IMPORTANT: This app uses anonymous, self-generated user IDs (crypto.randomUUID)
+// and NO Firebase Authentication, so request.auth is null. These rules are
+// intentionally permissive to allow the demo to function. For any real/public
+// deployment, switch to Firebase Anonymous Auth and key rules on request.auth.uid
+// instead of leaving them open.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Anonymous users create/update their own profile document.
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // A DM channel shared between two users.
+    match /chats/{chatId} {
+      allow read, write: if true;
+
+      // Messages are a subcollection of the chat document.
+      match /messages/{messageId} {
+        allow read, write: if true;
+      }
+    }
+
+    // Fallback: allow anything else the app may touch.
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
