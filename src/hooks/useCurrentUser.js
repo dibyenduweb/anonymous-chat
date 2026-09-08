@@ -3,22 +3,28 @@ import { generateUserId } from "../utils/generateUserId";
 import { createUser, updateUserPresence } from "../services/userService";
 import toast from "react-hot-toast";
 
-export const useCurrentUser = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+const getStoredUser = () => {
+  const storedId = localStorage.getItem("anon_chat_userId");
+  const storedName = localStorage.getItem("anon_chat_displayName");
+  if (storedId && storedName) {
+    return { userId: storedId, displayName: storedName };
+  }
+  return null;
+};
 
-  // Initialize user once from localStorage on mount (no setState in here afterwards).
+export const useCurrentUser = () => {
+  // Lazily seed the current user from localStorage on the very first render.
+  const [user, setUser] = useState(getStoredUser);
+
+  // Register the stored user's Firestore record once on mount.
   useEffect(() => {
-    const storedId = localStorage.getItem("anon_chat_userId");
-    const storedName = localStorage.getItem("anon_chat_displayName");
-    if (storedId && storedName) {
-      setUser({ userId: storedId, displayName: storedName });
-      createUser(storedId, storedName);
+    const stored = getStoredUser();
+    if (stored) {
+      createUser(stored.userId, stored.displayName);
     }
-    setLoading(false);
   }, []);
 
-  // Presence tracking — only re-subscribes when `user` actually changes.
+  // Presence tracking — re-subscribes only when `user` actually changes.
   useEffect(() => {
     if (!user) return;
     const userId = user.userId;
@@ -58,9 +64,9 @@ export const useCurrentUser = () => {
     localStorage.setItem("anon_chat_displayName", newName);
     const updatedUser = { ...user, displayName: newName };
     setUser(updatedUser);
-    await createUser(user.userId, newName);
+    await createUser(user.userId, newName); // merge: true in service
     toast.success("Name updated!");
   };
 
-  return { user, loading, initializeUser, updateUserName };
+  return { user, initializeUser, updateUserName };
 };

@@ -8,17 +8,9 @@ import { useCurrentUser } from "./hooks/useCurrentUser";
 import { useUsers } from "./hooks/useUsers";
 
 export default function App() {
-  const { user, loading: userLoading, initializeUser } = useCurrentUser();
+  const { user, initializeUser } = useCurrentUser();
   const { users, searchTerm, setSearchTerm, loading: usersLoading } = useUsers(user?.userId);
   const [selectedUser, setSelectedUser] = useState(null);
-
-  if (userLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
 
   if (!user) {
     return (

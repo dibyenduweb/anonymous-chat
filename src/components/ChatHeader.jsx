@@ -4,7 +4,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { formatLastSeen } from "../utils/formatTime";
 
-export default function ChatHeader({ user, currentUserId, chatId, onBack }) {
+export default function ChatHeader({ user, chatId, onBack }) {
   const [typingUser, setTypingUser] = useState(null);
   const initials = user.displayName.slice(0, 2).toUpperCase();
 

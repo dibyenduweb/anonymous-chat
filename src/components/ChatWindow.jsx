@@ -32,7 +32,6 @@ export default function ChatWindow({ targetUser, currentUserId, onBack }) {
     <div className="flex flex-col h-full bg-chat-bg relative">
       <ChatHeader 
         user={targetUser} 
-        currentUserId={currentUserId} 
         chatId={chatId}
         onBack={onBack} 
       />

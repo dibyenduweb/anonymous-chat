@@ -16,6 +16,5 @@ export const formatTime = (timestamp) => {
 
 export const formatLastSeen = (timestamp) => {
   if (!timestamp) return 'Offline';
-  const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
   return `Last seen ${formatTime(timestamp)}`;
 };

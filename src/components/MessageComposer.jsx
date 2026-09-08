@@ -107,13 +107,13 @@ export default function MessageComposer({ chatId, currentUserId, currentUserName
         >
           <ImageIcon className="w-5 h-5" />
         </button>
-        <input 
-          type="file" 
-          ref={fileInputRef} 
-          className="hidden" 
-          accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
-          onChange={handleImageSelect}
-        />
+         <input 
+           type="file" 
+           ref={fileInputRef} 
+           className="hidden" 
+           accept="image/*"
+           onChange={handleImageSelect}
+         />
 
         {/* Text Input - Constrained Width */}
         <div className="flex-1 min-w-0 relative">
