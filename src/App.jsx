@@ -4,13 +4,21 @@ import WelcomeScreen from "./components/WelcomeScreen";
 import UserList from "./components/UserList";
 import ChatWindow from "./components/ChatWindow";
 import EmptyChat from "./components/EmptyChat";
+import PasswordGate from "./components/PasswordGate";
 import { useCurrentUser } from "./hooks/useCurrentUser";
 import { useUsers } from "./hooks/useUsers";
 
 export default function App() {
+  const [unlocked, setUnlocked] = useState(
+    () => localStorage.getItem("chat_unlocked") === "true"
+  );
   const { user, initializeUser } = useCurrentUser();
   const { users, searchTerm, setSearchTerm, loading: usersLoading } = useUsers(user?.userId);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  if (!unlocked) {
+    return <PasswordGate onUnlock={() => setUnlocked(true)} />;
+  }
 
   if (!user) {
     return (
